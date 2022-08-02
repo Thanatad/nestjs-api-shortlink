@@ -1,6 +1,12 @@
 # compiled output
 /dist
 /node_modules
+/src/database/migrations/*
+
+#enviroment files
+.env
+.env.development
+.env.production
 
 # Logs
 logs
