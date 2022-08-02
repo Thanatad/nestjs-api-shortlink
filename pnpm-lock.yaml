@@ -2549,6 +2549,8 @@ packages:
     peerDependenciesMeta:
       vue-template-compiler:
         optional: true
+      webpack:
+        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       chalk: 4.1.2
@@ -4419,6 +4421,8 @@ packages:
         optional: true
       uglify-js:
         optional: true
+      webpack:
+        optional: true
     dependencies:
       '@jridgewell/trace-mapping': 0.3.14
       jest-worker: 27.5.1
@@ -4527,6 +4531,9 @@ packages:
     peerDependencies:
       typescript: '*'
       webpack: ^5.0.0
+    peerDependenciesMeta:
+      webpack:
+        optional: true
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.10.0

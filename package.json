@@ -68,5 +68,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["webpack"]
+    }
   }
 }
