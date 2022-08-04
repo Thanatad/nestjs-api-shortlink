@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+@Unique(["code"])
 export class Urlshort {
     @PrimaryGeneratedColumn()
     id: number
@@ -8,7 +9,7 @@ export class Urlshort {
     @Column()
     url: string
 
-    @Column()
+    @Column({ length: 20 })
     code: string
 
     @CreateDateColumn({ type: "timestamp" })
