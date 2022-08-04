@@ -8,7 +8,7 @@ import {
 } from '@nestjs/typeorm';
 
 
-export const databaseConfig: DataSourceOptions = {
+const databaseConfig: DataSourceOptions = {
     type: 'mysql',
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10),

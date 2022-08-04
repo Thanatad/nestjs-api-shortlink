@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUrlshortDto } from './dto/create-urlshort.dto';
 import { UpdateUrlshortDto } from './dto/update-urlshort.dto';
@@ -10,23 +10,23 @@ export class UrlshortService {
   constructor(@InjectRepository(UrlshortRepository)
   private urlshortRepository: UrlshortRepository) { }
 
-  create(createUrlshortDto: CreateUrlshortDto) : Promise<Urlshort> {
-    return this.urlshortRepository.createUrlshort(createUrlshortDto);
+  create(urlshortDto: CreateUrlshortDto): Promise<Urlshort> {
+    return this.urlshortRepository.createUrlshort(urlshortDto);
   }
 
   findAll(): Promise<Urlshort[]> {
     return this.urlshortRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} urlshort`;
+  findOne(id: number): Promise<Urlshort> {
+    return this.urlshortRepository.findOneUrlshort(id);
   }
 
   update(id: number, updateUrlshortDto: UpdateUrlshortDto) {
-    return `This action updates a #${id} urlshort`;
+    return this.urlshortRepository.updateUrlshort(id, updateUrlshortDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} urlshort`;
+    return this.urlshortRepository.removeUrlshort(id);
   }
 }
