@@ -23,15 +23,16 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:cli": "typeorm-ts-node-esm -d ./src/config/typeorm.config-migrations.ts",
     "migration:create": "typeorm-ts-node-esm migration:create ./src/database/migrations/_migration",
-    "migration:generate": "pnpm run typeorm:cli migration:generate ./src/database/migrations/_migration",
-    "migration:run": "pnpm run typeorm:cli migration:run",
-    "migration:show": "pnpm run typeorm:cli migration:show",
-    "migration:revert": "pnpm run typeorm:cli migration:revert"
+    "migration:generate": "pnpm run env:dev pnpm run typeorm:cli migration:generate ./src/database/migrations/_migration",
+    "migration:run": "pnpm run env:dev pnpm run typeorm:cli migration:run",
+    "migration:show": "pnpm run env:dev pnpm run typeorm:cli migration:show",
+    "migration:revert": "pnpm run env:dev pnpm run typeorm:cli migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "class-transformer": "^0.5.1",

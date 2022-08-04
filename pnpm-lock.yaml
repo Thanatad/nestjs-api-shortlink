@@ -5,6 +5,7 @@ specifiers:
   '@nestjs/common': ^9.0.0
   '@nestjs/config': ^2.2.0
   '@nestjs/core': ^9.0.0
+  '@nestjs/mapped-types': '*'
   '@nestjs/platform-express': ^9.0.0
   '@nestjs/schematics': ^9.0.0
   '@nestjs/testing': ^9.0.0
@@ -40,6 +41,7 @@ dependencies:
   '@nestjs/common': 9.0.7_allg6cauirbqzgqcmexy2wdnoq
   '@nestjs/config': 2.2.0_4dbiavrsou3qkbphku77c4yu4y
   '@nestjs/core': 9.0.7_33m5b3m5yxauaifvpszi6cyz5m
+  '@nestjs/mapped-types': 1.1.0_fep5bt65ciiba3to7acg3dfv74
   '@nestjs/platform-express': 9.0.7_xxlaro4n3ygapuy65e43lboh2y
   '@nestjs/typeorm': 9.0.0_hcht4qnqfyji4kwzkisp3224ye
   class-transformer: 0.5.1
@@ -923,6 +925,25 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
+
+  /@nestjs/mapped-types/1.1.0_fep5bt65ciiba3to7acg3dfv74:
+    resolution: {integrity: sha512-+2kSly4P1QI+9eGt+/uGyPdEG1hVz7nbpqPHWZVYgoqz8eOHljpXPag+UCVRw9zo2XCu4sgNUIGe8Uk0+OvUQg==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.8 || ^8.0.0 || ^9.0.0
+      class-transformer: ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0
+      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0
+      reflect-metadata: ^0.1.12
+    peerDependenciesMeta:
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+    dependencies:
+      '@nestjs/common': 9.0.7_allg6cauirbqzgqcmexy2wdnoq
+      class-transformer: 0.5.1
+      class-validator: 0.13.2
+      reflect-metadata: 0.1.13
+    dev: false
 
   /@nestjs/platform-express/9.0.7_xxlaro4n3ygapuy65e43lboh2y:
     resolution: {integrity: sha512-s2FY0s7trFoTvmtwZCHFJLIZB9FlebCqCZBOA6hWbwfmeNw/uL4BDPcucj0T0jgkkMGVcv6NoGJQKSOma7sJ5w==}
