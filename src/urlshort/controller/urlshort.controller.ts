@@ -9,12 +9,12 @@ import { GetUrlshortQuery } from './urlshort.getquery';
 export class UrlshortController {
   constructor(private readonly urlshortService: UrlshortService) { }
 
-  @Post()
+  @Post('//')
   create(@Body() createUrlshortDto: CreateUrlshortDto) {
     return this.urlshortService.create(createUrlshortDto);
   }
 
-  @Get()
+  @Get('//')
   findAll() {
     return this.urlshortService.findAll();
   }
