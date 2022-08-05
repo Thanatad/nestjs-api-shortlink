@@ -64,7 +64,7 @@ export class UrlshortService {
         await this.findByFilter({ url: urlshortDto.url })
         return 1
       } catch (err) {
-        return 2
+        return err.response.statusCode === 404 ? 2 : 3
       }
     } else {
       return 3

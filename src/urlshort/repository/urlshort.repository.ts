@@ -11,9 +11,7 @@ export class UrlshortRepository extends Repository<Urlshort> {
         super(Urlshort, dataSource.createEntityManager())
     }
 
-    async createUrlshort(
-        urlshortDto: CreateUrlshortDto,
-    ): Promise<Urlshort> {
+    async createUrlshort(urlshortDto: CreateUrlshortDto): Promise<Urlshort> {
         try {
             const urlshort = new Urlshort();
             urlshort.url = urlshortDto.url;
@@ -54,7 +52,6 @@ export class UrlshortRepository extends Repository<Urlshort> {
         } catch (error) {
             throw new NotFoundException(`This id:${id} is not found`)
         }
-
     }
 
     async removeUrlshort(id: number): Promise<{ statusCode: number, message: string }> {

@@ -4,7 +4,6 @@ import { CreateUrlshortDto } from '../dto/create-urlshort.dto';
 import { UpdateUrlshortDto } from '../dto/update-urlshort.dto';
 import { GetUrlshortQuery } from './urlshort.getquery';
 
-
 @Controller('urlshort')
 export class UrlshortController {
   constructor(private readonly urlshortService: UrlshortService) { }
