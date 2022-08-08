@@ -4,7 +4,7 @@ export class CreateUrlshortDto {
 
     @IsString()
     @MinLength(10)
-    url: string
+    url: string;
     
-    code: string
+    code: string;
 }

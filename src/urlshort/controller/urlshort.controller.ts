@@ -20,22 +20,21 @@ export class UrlshortController {
 
   @Get('/filter')
   findByFilter(@Query() queryParams: GetUrlshortQuery) {
-
     return this.urlshortService.findByFilter(queryParams);
   }
 
   @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.urlshortService.findById(+id);
+  findById(@Param() queryParams: GetUrlshortQuery) {
+    return this.urlshortService.findById(queryParams.id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUrlshortDto: UpdateUrlshortDto) {
-    return this.urlshortService.update(+id, updateUrlshortDto);
+  update(@Param() queryParams: GetUrlshortQuery, @Body() updateUrlshortDto: UpdateUrlshortDto) {
+    return this.urlshortService.update(queryParams.id, updateUrlshortDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.urlshortService.remove(+id);
+  remove(@Param() queryParams: GetUrlshortQuery) {
+    return this.urlshortService.remove(queryParams.id);
   }
 }

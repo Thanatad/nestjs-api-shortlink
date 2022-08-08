@@ -13,6 +13,9 @@ class EnvironmentVariables {
     @IsString()
     DB_HOST: string
 
+    @IsString()
+    API_CURRENT_VERSION: string
+
     @IsNumber()
     SERVER_PORT: number
 

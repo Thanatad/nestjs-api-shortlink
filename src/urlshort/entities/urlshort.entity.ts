@@ -4,17 +4,17 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique } from
 @Unique(["code"])
 export class Urlshort {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    url: string
+    url: string;
 
     @Column({ length: 20 })
-    code: string
+    code: string;
 
     @CreateDateColumn({ type: "timestamp" })
-    created_at: Date
+    created_at: Date;
 
     @CreateDateColumn({ type: "timestamp" })
-    updated_at: Date
+    updated_at: Date;
 }
