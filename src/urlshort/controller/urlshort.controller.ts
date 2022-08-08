@@ -9,8 +9,8 @@ export class UrlshortController {
   constructor(private readonly urlshortService: UrlshortService) { }
 
   @Post('//')
-  create(@Body() createUrlshortDto: CreateUrlshortDto) {
-    return this.urlshortService.create(createUrlshortDto);
+  create(@Body() urlshortDto: CreateUrlshortDto) {
+    return this.urlshortService.create(urlshortDto);
   }
 
   @Get('//')
@@ -29,8 +29,8 @@ export class UrlshortController {
   }
 
   @Put(':id')
-  update(@Param() queryParams: GetUrlshortQuery, @Body() updateUrlshortDto: UpdateUrlshortDto) {
-    return this.urlshortService.update(queryParams.id, updateUrlshortDto);
+  update(@Param() queryParams: GetUrlshortQuery, @Body() urlshortDto: UpdateUrlshortDto) {
+    return this.urlshortService.update(queryParams.id, urlshortDto);
   }
 
   @Delete(':id')

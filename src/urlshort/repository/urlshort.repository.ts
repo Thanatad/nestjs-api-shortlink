@@ -46,7 +46,7 @@ export class UrlshortRepository extends Repository<Urlshort> {
         try {
             const urlshort: Urlshort = await this.findByIdUrlshort(id);
             urlshort.url = urlshortDto.url;
-            urlshort.code = urlshortDto.code;
+            // urlshort.code = urlshortDto.code;
             await this.save(urlshort);
             return urlshort;
         } catch (error) {

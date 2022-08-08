@@ -12,6 +12,7 @@ export class UrlshortResource extends Resource {
         return {
             ids: this.id,
             url: this.url,
+            base_url: process.env.BASE_URL,
             code: this.code,
             created_at: this.created_at,
             updated_at: this.updated_at

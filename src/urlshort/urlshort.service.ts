@@ -17,7 +17,7 @@ export class UrlshortService {
   private urlshortRepository: UrlshortRepository) { };
 
   async create(urlshortDto: CreateUrlshortDto): Promise<Urlshort> {
-    const isUrlStatus: number = await this.checkUrlExist(urlshortDto);
+    const isUrlStatus: number = await this.checkUrlExist(urlshortDto.url);
 
     switch (isUrlStatus) {
       case 1: {
@@ -48,9 +48,21 @@ export class UrlshortService {
     return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
 
-  async update(id: number, updateUrlshortDto: UpdateUrlshortDto): Promise<Urlshort> {
-    const urlshort: Urlshort = await this.urlshortRepository.updateUrlshort(id, updateUrlshortDto);
-    return new UrlshortResource(urlshort);
+  async update(id: number, urlshortDto: UpdateUrlshortDto): Promise<Urlshort> {
+    const isUrlStatus: number = await this.checkUrlExist(urlshortDto.url);
+
+    switch (isUrlStatus) {
+      case 1: {
+        const urlshort: UCPayload = await this.findByFilter({ url: urlshortDto.url });
+        return urlshort.data[0];
+      }
+      case 2: {
+        const urlshort: Urlshort = await this.urlshortRepository.updateUrlshort(id, urlshortDto);
+        return new UrlshortResource(urlshort);
+      }
+      default:
+        throw new BadRequestException('Url\'\s wrong I can feel it.');
+    }
   }
 
   remove(id: number): Promise<object> {
@@ -60,18 +72,18 @@ export class UrlshortService {
 
   /**
    *
-   * @param urlshortDto
-   * @Type CreateUrlshortDto
+   * @param url
+   * @Type string
    * @returns 1 if url is exists on database
    * @returns 2 if url is not exists on database
    * @returns 3 if url is exists link
    * @returns
    */
-  private async checkUrlExist(urlshortDto: CreateUrlshortDto) {
-    const isUrlExists: string = await urlExists(urlshortDto.url);
+  private async checkUrlExist(url: string) {
+    const isUrlExists: string = await urlExists(url);
     if (isUrlExists) {
       try {
-        await this.findByFilter({ url: urlshortDto.url });
+        await this.findByFilter({ url: url });
         return 1;
       } catch (err) {
         return err.response.statusCode === 404 ? 2 : 3;

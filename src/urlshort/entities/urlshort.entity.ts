@@ -9,7 +9,7 @@ export class Urlshort {
     @Column()
     url: string;
 
-    @Column({ length: 20 })
+    @Column({ length: 15 })
     code: string;
 
     @CreateDateColumn({ type: "timestamp" })
