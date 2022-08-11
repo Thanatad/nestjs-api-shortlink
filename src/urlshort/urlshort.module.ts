@@ -10,4 +10,4 @@ import { UrlshortRepository } from './repository/urlshort.repository';
   controllers: [UrlshortController, RedirectController],
   providers: [UrlshortService, UrlshortRepository],
 })
-export class UrlshortModule { }
+export class UrlshortModule {}

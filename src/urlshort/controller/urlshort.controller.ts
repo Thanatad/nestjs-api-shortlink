@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { UrlshortService } from '../urlshort.service';
 import { CreateUrlshortDto } from '../dto/create-urlshort.dto';
 import { UpdateUrlshortDto } from '../dto/update-urlshort.dto';
@@ -6,7 +15,7 @@ import { GetUrlshortQuery } from './urlshort.getquery';
 
 @Controller('urlshort')
 export class UrlshortController {
-  constructor(private readonly urlshortService: UrlshortService) { }
+  constructor(private readonly urlshortService: UrlshortService) {}
 
   @Post('//')
   create(@Body() urlshortDto: CreateUrlshortDto) {
@@ -29,7 +38,10 @@ export class UrlshortController {
   }
 
   @Put(':id')
-  update(@Param() queryParams: GetUrlshortQuery, @Body() urlshortDto: UpdateUrlshortDto) {
+  update(
+    @Param() queryParams: GetUrlshortQuery,
+    @Body() urlshortDto: UpdateUrlshortDto,
+  ) {
     return this.urlshortService.update(queryParams.id, urlshortDto);
   }
 

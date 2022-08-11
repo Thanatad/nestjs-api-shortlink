@@ -13,24 +13,30 @@ const shortid = require('shortid');
 const urlExists = require('url-exists-deep');
 @Injectable()
 export class UrlshortService {
-  constructor(@InjectRepository(UrlshortRepository)
-  private urlshortRepository: UrlshortRepository) { };
+  constructor(
+    @InjectRepository(UrlshortRepository)
+    private urlshortRepository: UrlshortRepository,
+  ) {}
 
   async create(urlshortDto: CreateUrlshortDto): Promise<Urlshort> {
     const isUrlStatus: number = await this.checkUrlExist(urlshortDto.url);
 
     switch (isUrlStatus) {
       case 1: {
-        const urlshort: UCPayload = await this.findByFilter({ url: urlshortDto.url });
+        const urlshort: UCPayload = await this.findByFilter({
+          url: urlshortDto.url,
+        });
         return urlshort.data[0];
       }
       case 2: {
         urlshortDto.code = shortid.generate();
-        const urlshort: Urlshort = await this.urlshortRepository.createUrlshort(urlshortDto);
+        const urlshort: Urlshort = await this.urlshortRepository.createUrlshort(
+          urlshortDto,
+        );
         return new UrlshortResource(urlshort);
       }
       default:
-        throw new BadRequestException('Url\'\s wrong I can feel it.');
+        throw new BadRequestException("Url's wrong I can feel it.");
     }
   }
 
@@ -40,11 +46,14 @@ export class UrlshortService {
   }
 
   async findById(id: number): Promise<UCPayload> {
-    const urlshort: Urlshort = await this.urlshortRepository.findByIdUrlshort(id);
+    const urlshort: Urlshort = await this.urlshortRepository.findByIdUrlshort(
+      id,
+    );
     return UrlshortResource.collection(new UrlshortCollection([urlshort]));
   }
   async findByFilter(queryParams: GetUrlshortQuery): Promise<UCPayload> {
-    const urlshort: Urlshort[] = await this.urlshortRepository.findByFilterUrlshort(queryParams);
+    const urlshort: Urlshort[] =
+      await this.urlshortRepository.findByFilterUrlshort(queryParams);
     return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
 
@@ -53,22 +62,26 @@ export class UrlshortService {
 
     switch (isUrlStatus) {
       case 1: {
-        const urlshort: UCPayload = await this.findByFilter({ url: urlshortDto.url });
+        const urlshort: UCPayload = await this.findByFilter({
+          url: urlshortDto.url,
+        });
         return urlshort.data[0];
       }
       case 2: {
-        const urlshort: Urlshort = await this.urlshortRepository.updateUrlshort(id, urlshortDto);
+        const urlshort: Urlshort = await this.urlshortRepository.updateUrlshort(
+          id,
+          urlshortDto,
+        );
         return new UrlshortResource(urlshort);
       }
       default:
-        throw new BadRequestException('Url\'\s wrong I can feel it.');
+        throw new BadRequestException("Url's wrong I can feel it.");
     }
   }
 
   remove(id: number): Promise<object> {
     return this.urlshortRepository.removeUrlshort(id);
   }
-
 
   /**
    *

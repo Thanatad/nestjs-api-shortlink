@@ -4,15 +4,17 @@ import { GetUrlshortQuery } from './urlshort.getquery';
 
 @Controller()
 export class RedirectController {
-    constructor(private readonly urlshortService: UrlshortService) { }
+  constructor(private readonly urlshortService: UrlshortService) {}
 
-    @Get(':code')
-    async redirect(@Res() response, @Param() paramQuery: GetUrlshortQuery) {
-        try {
-            const urlshort = await this.urlshortService.findByFilter({ code: paramQuery.code });
-            return response.redirect(urlshort.data[0].url);
-        } catch (error) {
-            return response.redirect('https://xhofficial.com/');
-        }
+  @Get(':code')
+  async redirect(@Res() response, @Param() paramQuery: GetUrlshortQuery) {
+    try {
+      const urlshort = await this.urlshortService.findByFilter({
+        code: paramQuery.code,
+      });
+      return response.redirect(urlshort.data[0].url);
+    } catch (error) {
+      return response.redirect('https://xhofficial.com/');
     }
+  }
 }

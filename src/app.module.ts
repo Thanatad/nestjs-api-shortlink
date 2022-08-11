@@ -10,7 +10,7 @@ import { UrlshortModule } from './urlshort/urlshort.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
-      validate
+      validate,
     }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     UrlshortModule,
@@ -18,4 +18,4 @@ import { UrlshortModule } from './urlshort/urlshort.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
