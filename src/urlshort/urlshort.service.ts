@@ -8,9 +8,10 @@ import { GetUrlshortQuery } from './controller/urlshort.getquery';
 import { UrlshortResource } from './resource/urlshort.resource';
 import { UrlshortCollection } from './resource/urlshort.collection';
 import { UrlshortCollectionPayload as UCPayload } from './interface/urlshort.collection.payload.interface';
+import { nanoid } from 'nanoid';
 
-const shortid = require('shortid');
 const urlExists = require('url-exists-deep');
+
 @Injectable()
 export class UrlshortService {
   constructor(
@@ -29,7 +30,7 @@ export class UrlshortService {
         return urlshort.data[0];
       }
       case 2: {
-        urlshortDto.code = shortid.generate();
+        urlshortDto.code = nanoid(5);
         const urlshort: Urlshort = await this.urlshortRepository.createUrlshort(
           urlshortDto,
         );
@@ -79,7 +80,7 @@ export class UrlshortService {
     }
   }
 
-  remove(id: number): Promise<object> {
+  remove(id: number): object {
     return this.urlshortRepository.removeUrlshort(id);
   }
 
