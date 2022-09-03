@@ -3,11 +3,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DataSource, DeleteResult, Repository } from 'typeorm';
+import {
+  DataSource,
+  DeleteResult,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { CreateUrlshortDto } from '../dto/create-urlshort.dto';
 import { UpdateUrlshortDto } from '../dto/update-urlshort.dto';
 import { Urlshort } from '../entities/urlshort.entity';
 import { GetUrlshortQuery } from '../controller/urlshort.getquery';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UrlshortRepository extends Repository<Urlshort> {
@@ -25,6 +35,12 @@ export class UrlshortRepository extends Repository<Urlshort> {
     } catch (error) {
       throw new ConflictException("Something's wrong I can feel it.");
     }
+  }
+
+  async findAll(options: IPaginationOptions): Promise<Pagination<Urlshort>> {
+    const urlshort: SelectQueryBuilder<Urlshort> =
+      await this.createQueryBuilder('urlshort').orderBy('urlshort.id', 'DESC');
+    return paginate<Urlshort>(urlshort, options);
   }
 
   async findByIdUrlshort(id: number): Promise<Urlshort> {

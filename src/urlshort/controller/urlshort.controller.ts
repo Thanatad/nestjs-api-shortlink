@@ -23,8 +23,14 @@ export class UrlshortController {
   }
 
   @Get('//')
-  findAll() {
-    return this.urlshortService.findAll();
+  findAll(@Query() queryParams: GetUrlshortQuery) {
+    queryParams.limit = queryParams.limit > 100 ? 100 : queryParams.limit;
+
+    return this.urlshortService.findAll({
+      limit: queryParams.limit,
+      page: queryParams.page,
+      route: `${process.env.BASE_URL}/${process.env.API_CURRENT_VERSION}/urlshort`,
+    });
   }
 
   @Get('/filter')

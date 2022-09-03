@@ -9,6 +9,12 @@ import { UrlshortResource } from './resource/urlshort.resource';
 import { UrlshortCollection } from './resource/urlshort.collection';
 import { UrlshortCollectionPayload as UCPayload } from './interface/urlshort.collection.payload.interface';
 import { nanoid } from 'nanoid';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+import { SelectQueryBuilder } from 'typeorm';
 
 const urlExists = require('url-exists-deep');
 
@@ -41,8 +47,9 @@ export class UrlshortService {
     }
   }
 
-  async findAll(): Promise<UCPayload> {
-    const urlshort: Urlshort[] = await this.urlshortRepository.find();
+  async findAll(options: IPaginationOptions): Promise<Pagination<UCPayload>> {
+    const urlshort: Pagination<Urlshort> =
+      await this.urlshortRepository.findAll(options);
     return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
 

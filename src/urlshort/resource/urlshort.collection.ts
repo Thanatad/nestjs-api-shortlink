@@ -5,17 +5,19 @@ export class UrlshortCollection {
         module: 'urlshort',
         api: `${process.env.API_CURRENT_VERSION}`,
       },
-      data,
+      data: data.items,
       meta: {
-        item_count: 1,
-        total_items: data.length,
-        per_page: 1,
-        total_pages: 1,
-        current_page: 1,
+        item_count: data.meta.itemCount,
+        total_items: data.meta.totalItems,
+        per_page: data.meta.itemsPerPage,
+        total_pages: data.meta.totalPages,
+        current_page: data.meta.currentPage,
       },
       links: {
-        next: '...',
-        prev: '...',
+        first: data.links.first,
+        next: data.links.next,
+        prev: data.links.previous,
+        last: data.links.last,
       },
     };
   }

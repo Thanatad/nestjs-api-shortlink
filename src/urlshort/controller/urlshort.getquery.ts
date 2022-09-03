@@ -23,4 +23,12 @@ export class GetUrlshortQuery {
   @MaxLength(20)
   @IsOptional()
   code?: string;
+
+  @IsInt()
+  @Type(() => Number)
+  page?: number = 1;
+
+  @IsInt()
+  @Type(() => Number)
+  limit?: number = 5;
 }
