@@ -35,12 +35,22 @@ export class UrlshortController {
 
   @Get('/filter')
   findByFilter(@Query() queryParams: GetUrlshortQuery) {
-    return this.urlshortService.findByFilter(queryParams);
+    queryParams.limit = queryParams.limit > 100 ? 100 : queryParams.limit;
+
+    return this.urlshortService.findByFilter(queryParams, {
+      limit: queryParams.limit,
+      page: queryParams.page,
+      route: `${process.env.BASE_URL}/${process.env.API_CURRENT_VERSION}/urlshort`,
+    });
   }
 
   @Get(':id')
   findById(@Param() queryParams: GetUrlshortQuery) {
-    return this.urlshortService.findById(queryParams.id);
+    return this.urlshortService.findById(queryParams.id, {
+      limit: queryParams.limit,
+      page: queryParams.page,
+      route: `${process.env.BASE_URL}/${process.env.API_CURRENT_VERSION}/urlshort/${queryParams.id}`,
+    });
   }
 
   @Put(':id')

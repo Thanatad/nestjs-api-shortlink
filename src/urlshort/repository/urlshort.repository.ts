@@ -37,19 +37,31 @@ export class UrlshortRepository extends Repository<Urlshort> {
     }
   }
 
-  async findAll(options: IPaginationOptions): Promise<Pagination<Urlshort>> {
+  async findAllUrlshort(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Urlshort>> {
     const urlshort: SelectQueryBuilder<Urlshort> =
       await this.createQueryBuilder('urlshort').orderBy('urlshort.id', 'DESC');
     return paginate<Urlshort>(urlshort, options);
   }
 
-  async findByIdUrlshort(id: number): Promise<Urlshort> {
-    const urlshort: Urlshort = await this.findOne({ where: { id } });
-    if (!urlshort) throw new NotFoundException(`This id:${id} is not found`);
-    return urlshort;
+  async findByFilterUrlshort(
+    queryParams: GetUrlshortQuery,
+    options: IPaginationOptions,
+  ): Promise<Pagination<Urlshort>> {
+    const urlshort: SelectQueryBuilder<Urlshort> =
+      await this.createQueryBuilder('urlshort')
+        .orWhere('urlshort.url = :url', { url: queryParams.url })
+        .orWhere('urlshort.id = :id', { id: queryParams.id })
+        .orWhere('urlshort.code = :code', { code: queryParams.code })
+        .orderBy('urlshort.id', 'DESC');
+    const pagination = await paginate<Urlshort>(urlshort, options);
+    if (pagination.items.length === 0)
+      throw new NotFoundException(`This is not found`);
+    return pagination;
   }
 
-  async findByFilterUrlshort(
+  async _findByFilterUrlshort(
     queryParams: GetUrlshortQuery,
   ): Promise<Urlshort[]> {
     const urlshort: Urlshort[] = await this.createQueryBuilder('urlshort')
@@ -66,11 +78,11 @@ export class UrlshortRepository extends Repository<Urlshort> {
     urlshortDto: UpdateUrlshortDto,
   ): Promise<Urlshort> {
     try {
-      const urlshort: Urlshort = await this.findByIdUrlshort(id);
-      urlshort.url = urlshortDto.url;
+      const urlshort: Urlshort[] = await this._findByFilterUrlshort({ id: id });
+      urlshort[0].url = urlshortDto.url;
       // urlshort.code = urlshortDto.code;
       await this.save(urlshort);
-      return urlshort;
+      return urlshort[0];
     } catch (error) {
       throw new NotFoundException(`This id:${id} is not found`);
     }

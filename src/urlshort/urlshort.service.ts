@@ -9,12 +9,7 @@ import { UrlshortResource } from './resource/urlshort.resource';
 import { UrlshortCollection } from './resource/urlshort.collection';
 import { UrlshortCollectionPayload as UCPayload } from './interface/urlshort.collection.payload.interface';
 import { nanoid } from 'nanoid';
-import {
-  paginate,
-  Pagination,
-  IPaginationOptions,
-} from 'nestjs-typeorm-paginate';
-import { SelectQueryBuilder } from 'typeorm';
+import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 const urlExists = require('url-exists-deep');
 
@@ -30,10 +25,11 @@ export class UrlshortService {
 
     switch (isUrlStatus) {
       case 1: {
-        const urlshort: UCPayload = await this.findByFilter({
-          url: urlshortDto.url,
-        });
-        return urlshort.data[0];
+        const urlshort: Urlshort[] =
+          await this.urlshortRepository._findByFilterUrlshort({
+            url: urlshortDto.url,
+          });
+        return urlshort[0];
       }
       case 2: {
         urlshortDto.code = nanoid(5);
@@ -47,33 +43,36 @@ export class UrlshortService {
     }
   }
 
-  async findAll(options: IPaginationOptions): Promise<Pagination<UCPayload>> {
+  async findAll(options: IPaginationOptions): Promise<UCPayload> {
     const urlshort: Pagination<Urlshort> =
-      await this.urlshortRepository.findAll(options);
+      await this.urlshortRepository.findAllUrlshort(options);
     return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
 
-  async findById(id: number): Promise<UCPayload> {
-    const urlshort: Urlshort = await this.urlshortRepository.findByIdUrlshort(
-      id,
-    );
-    return UrlshortResource.collection(new UrlshortCollection([urlshort]));
+  async findById(id: number, options: IPaginationOptions): Promise<UCPayload> {
+    const urlshort: Pagination<Urlshort> =
+      await this.urlshortRepository.findByFilterUrlshort({ id: id }, options);
+    return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
-  async findByFilter(queryParams: GetUrlshortQuery): Promise<UCPayload> {
-    const urlshort: Urlshort[] =
-      await this.urlshortRepository.findByFilterUrlshort(queryParams);
+
+  async findByFilter(
+    queryParams: GetUrlshortQuery,
+    options: IPaginationOptions,
+  ): Promise<UCPayload> {
+    const urlshort: Pagination<Urlshort> =
+      await this.urlshortRepository.findByFilterUrlshort(queryParams, options);
     return UrlshortResource.collection(new UrlshortCollection(urlshort));
   }
 
   async update(id: number, urlshortDto: UpdateUrlshortDto): Promise<Urlshort> {
     const isUrlStatus: number = await this.checkUrlExist(urlshortDto.url);
-
     switch (isUrlStatus) {
       case 1: {
-        const urlshort: UCPayload = await this.findByFilter({
-          url: urlshortDto.url,
-        });
-        return urlshort.data[0];
+        const urlshort: Urlshort[] =
+          await this.urlshortRepository._findByFilterUrlshort({
+            url: urlshortDto.url,
+          });
+        return urlshort[0];
       }
       case 2: {
         const urlshort: Urlshort = await this.urlshortRepository.updateUrlshort(
@@ -100,11 +99,11 @@ export class UrlshortService {
    * @returns 3 if url is exists link
    * @returns
    */
-  private async checkUrlExist(url: string) {
+  private async checkUrlExist(url: string): Promise<number> {
     const isUrlExists: string = await urlExists(url);
     if (isUrlExists) {
       try {
-        await this.findByFilter({ url: url });
+        await this.urlshortRepository._findByFilterUrlshort({ url: url });
         return 1;
       } catch (err) {
         return err.response.statusCode === 404 ? 2 : 3;
